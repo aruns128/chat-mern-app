@@ -1,32 +1,30 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from "react";
+import styled from "styled-components";
+import axios from "axios";
+import { Buffer } from "buffer";
 import loader from "../assets/loader.svg";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
-import styled from 'styled-components'
-import { ToastContainer, toast } from 'react-toastify'
-import axios from 'axios'
-import { setAvatarRoute } from '../utils/APIRoutes';
-import { Buffer } from 'buffer';
-
-
+import { setAvatarRoute } from "../utils/APIRoutes";
 
 export const SetAvatar = () => {
   const api = `https://api.multiavatar.com/4645646`;
   const navigate = useNavigate();
-  const [avatars, setAvatars] = useState([])
-  const [isLoading, setIsLoading] = useState(true)
-  const [selectedAvatar, setSelectedAvatar] = useState(undefined)
-
+  const [avatars, setAvatars] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [selectedAvatar, setSelectedAvatar] = useState(undefined);
   const toastOptions = {
-    position: 'bottom-right',
+    position: "bottom-right",
     autoClose: 8000,
     pauseOnHover: true,
     draggable: true,
-    theme: 'light'
-  }
+    theme: "dark",
+  };
 
   useEffect(() => {
-    if (localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)) {
-      navigate("/");
+    if (!localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)) {
+      navigate("/login");
     }
   }, []);
 
@@ -56,7 +54,7 @@ export const SetAvatar = () => {
     }
   };
 
-  const randomAvatar = async () => {
+  const getUser = async () => {
     const data = [];
     for (let i = 0; i < 4; i++) {
       const image = await axios.get(
@@ -68,11 +66,8 @@ export const SetAvatar = () => {
     setAvatars(data);
     setIsLoading(false);
   }
-
   useEffect(() => {
-    if (!localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)) {
-      randomAvatar()
-    }
+    getUser()
   }, []);
 
   return (

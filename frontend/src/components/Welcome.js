@@ -3,19 +3,6 @@ import styled from "styled-components";
 import Robot from "../assets/robot.gif";
 
 export const Welcome = ({ currentUser }) => {
-  // const [userName, setUserName] = useState("");
-
-  // const getUserName = async () => {
-  //   setUserName(
-  //     await JSON.parse(
-  //       localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
-  //     ).username
-  //   );
-  // }
-  // useEffect(() => {
-  //   getUserName()
-  // }, []);
-  console.log(currentUser)
   return (
     <Container>
       <img src={Robot} alt="Robot" />

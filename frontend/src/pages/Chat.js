@@ -35,11 +35,16 @@ export const Chat = () => {
     redirect()
   }, []);
 
+  useEffect(() => {
+    if (!localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)) {
+      navigate("/login");
+    }
+  }, [])
+
   const getContact = async (currentUser) => {
     if (currentUser) {
       setCurrentUser(currentUser)
       if (currentUser.isAvatarImageSet) {
-
         const data = await axios.get(`${allUsersRoute}/${currentUser._id}`);
         setContacts(data.data);
       } else {

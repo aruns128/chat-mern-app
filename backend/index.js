@@ -45,7 +45,6 @@ io.on('connection', (socket) => {
 
 
   socket.on('disconnect', () => {
-    // Remove the user from the onlineUsers map when they disconnect
     onlineUsers.forEach((socketId, userId) => {
       if (socketId === socket.id) {
         onlineUsers.delete(userId);
@@ -61,6 +60,15 @@ app.use(express.json());
 
 app.use('/api/auth', userRoutes);
 app.use('/api/messages', messageRoutes);
+app.use('/api/logout/:id', async (req, res, next) => {
+  try {
+    if (!req.params.id) return res.json({ msg: "User id is required " });
+    onlineUsers.delete(req.params.id);
+    return res.status(200).send();
+  } catch (ex) {
+    next(ex);
+  }
+})
 
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
